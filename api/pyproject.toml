@@ -1,0 +1,39 @@
+[project]
+name = "api"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "Hector Muro", email = "hector.muro@gigaclear.com" }
+]
+dependencies = [
+    "fastapi[standard,orjson]>=0.112.1",
+    "osmnx>=1.9.4",
+    "neo4j>=5.23.1",
+    "shapely>=2.0.6",
+    "geojson>=3.1.0",
+    "matplotlib>=3.9.2",
+    "geopy>=2.4.1",
+    "pandas>=2.2.2",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "mypy>=1.11.1",
+]
+
+[tool.rye.scripts]
+devserver = "fastapi dev --port 3000 src/main.py"
+downloadgraph = "python -m scripts.fetch_graph_data"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/main.py"]
