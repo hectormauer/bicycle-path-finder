@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from json import loads as json_loads
 from pathlib import Path
 from shapely import STRtree, Point
+
 # from geopy.distance import geodesic
 import csv
 
@@ -82,6 +83,5 @@ async def get_path(start: Coordinate, end: Coordinate):
     # end_distance = geodesic(
     #     (end.lat, end.lon), (nearest_end_point.x, nearest_end_point.y)
     # ).meters
-
     path = await dq_get_path_between_nodes(nearest_start_point, nearest_end_point)
     return path

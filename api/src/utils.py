@@ -1,11 +1,9 @@
 from neo4j import AsyncGraphDatabase
 from pathlib import Path
 from shapely import Point, STRtree
-from shapely.wkt import loads as load_wkt
 import geojson
 
 from contextlib import asynccontextmanager
-from typing import Any
 
 from .data_model import Coordinate
 
@@ -32,7 +30,7 @@ async def get_async_graph_session(
         await client.close()
 
 
-async def dq_get_path_between_nodes(start: Point, end: Point) -> Any:
+async def dq_get_path_between_nodes(start: Point, end: Point) -> geojson.Feature:
     async with get_async_graph_session() as session:
         async with await session.begin_transaction() as tx:
             result = await tx.run(
@@ -49,10 +47,12 @@ async def dq_get_path_between_nodes(start: Point, end: Point) -> Any:
             if not record:
                 return "ERROR NO PATH FOUND"
             path = record["path"]
-            coordinate_list = [[node["latitude"], node["longitude"]] for node in path.nodes]       
-            geojson_feature = geojson.LineString(coordinates=coordinate_list)
-
-    return geojson.FeatureCollection([geojson_feature])
+            coordinate_list = [
+                [node["longitude"], node["latitude"]] for node in path.nodes
+            ]
+            linestring = geojson.LineString(coordinates=coordinate_list)
+            geojson_feature = geojson.Feature(geometry=linestring)
+    return geojson_feature
 
 
 async def dq_truncate_database() -> None:
