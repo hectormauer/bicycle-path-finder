@@ -72,10 +72,3 @@ It can be done in different ways, ordered here from more to less performant:
 ![tests](api/data/hop-on-the-cycle-frontier.gif)
 
 Nah, really, I just did not have time to work on them. I will add some in the future.
-
-
-### BUT DOES IT WORK?
-
-Sometimes, hehe. And I guess it is as good as the data :D
-
-![live-test](api/data/testing-the-ui.gif)
